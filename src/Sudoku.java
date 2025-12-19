@@ -1,21 +1,23 @@
-import java.util.ArrayList;
 import java.util.List;
 
 public class Sudoku {
     private final int[][] sudokuTable = new int[9][9];
-    private List<String> sudokuAvailableTablePositions = new ArrayList<>();
 
-    public Sudoku() {}
+    public Sudoku(List<String> numbers) {
+        for (String position : numbers) {
+            var positionSplited = position.split(";");
+
+            int row = Integer.parseInt(positionSplited[0]);
+            int column = Integer.parseInt(positionSplited[1]);
+            int number = Integer.parseInt(positionSplited[2]);
+
+            this.sudokuTable[row][column] = number;
+        }
+    }
 
     private boolean verifySudokuPosition(int row, int column) {
-        boolean value = false;
-
-        boolean isAvailablePosition = sudokuAvailableTablePositions.stream().anyMatch((n) -> String.format("%s;%s", row, column).equals(n));
-        if(isAvailablePosition) {
-            value = true;
-        }
-
-        return value;
+        boolean isAvailablePosition = this.sudokuTable[row][column] == 0;
+        return isAvailablePosition;
     }
 
     private boolean verifyIfNumberAvailableInArrayRange(int row, int column, int number) {
@@ -27,12 +29,11 @@ public class Sudoku {
                     break;
                 }
             }
-            System.out.println();
         }
         return result;
     }
 
-    public boolean isColumnAndRowAvailable(int row, int column, int number) {
+    private boolean isColumnAndRowAvailable(int row, int column, int number) {
         boolean result = true;
 
         for(int columnVerification = 0; columnVerification != 9; columnVerification++) {
@@ -64,17 +65,24 @@ public class Sudoku {
         }
     }
 
-    public void insertNumberInPosition(int row, int column, int number) {
-        if(!this.verifySudokuPosition(row, column)) {
-            System.out.println(">> Posição não disponível, selecione outra posição. <<");
-        } else if(!this.verifyIfNumberAvailableInArrayRange(row, column, number)) {
-            System.out.println(">> Número já está presente no quadrante selecionado. <<");
-        } else if(!this.isColumnAndRowAvailable(row, column, number)) {
-            System.out.println(">> Número já está presente na linha ou coluna. <<");
-        } else {
-            this.sudokuTable[row][column] = number;
-            this.showSudokuTable();
+    public void insertNumberInPosition(String userRow, String userColumn, String userNumber) {
+        try {
+            int row = Integer.parseInt(userRow);
+            int column = Integer.parseInt(userColumn);
+            int number = Integer.parseInt(userNumber);
+
+            if(!this.verifyIfNumberAvailableInArrayRange(row, column, number)) {
+                System.out.println(">> Posição não disponível, selecione outra posição. <<");
+            } else if(!this.isColumnAndRowAvailable(row, column, number)) {
+                System.out.println(">> Número já está presente no quadrante selecionado. <<");
+            } else if(!this.verifySudokuPosition(row, column)) {
+                System.out.println(">> Número já está presente na linha ou coluna. <<");
+            } else {
+                this.sudokuTable[row][column] = number;
+                this.showSudokuTable();
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
-
 }
