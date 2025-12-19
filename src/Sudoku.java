@@ -21,9 +21,15 @@ public class Sudoku {
     }
 
     private boolean verifyIfNumberAvailableInArrayRange(int row, int column, int number) {
+        int blockRowNumber = row/3;
+        int blockColNumber = column/3;
+
+        int blockRowStart = blockRowNumber * 3;
+        int blockColStart = blockColNumber * 3;
+
         boolean result = true;
-        for (int i = 0; i != row+1; i++) {
-            for (int j = 0; j != column+1; j++) {
+        for (int i = blockRowStart; i < blockRowStart+3; i++) {
+            for (int j = blockColStart; j < blockColStart+3; j++) {
                 if(this.sudokuTable[i][j] == number) {
                     result = false;
                     break;
@@ -56,6 +62,7 @@ public class Sudoku {
     public void showSudokuTable() {
         System.out.printf("    0 1 2 3 4 5 6 7 8\n");
         System.out.println();
+
         for(int row = 0; row != 9; row++) {
             for(int column = 0; column != 9; column++) {
                 if(column == 0) {System.out.printf("%s   ", row);}

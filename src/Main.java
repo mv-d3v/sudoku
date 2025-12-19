@@ -19,8 +19,9 @@ public class Main {
 
         boolean isContinued = true;
         while(isContinued) {
-            System.out.print(" row;column;number : ");
+            System.out.print("row;column;number : ");
             var position = keyboard.nextLine();
+
             var rowColumnNumber = Arrays.stream(position.split(";")).toList();
             sudoku.insertNumberInPosition(rowColumnNumber.get(0), rowColumnNumber.get(1), rowColumnNumber.get(2));
         }
