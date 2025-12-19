@@ -3,5 +3,6 @@ public class Main {
         Sudoku sudoku = new Sudoku();
 
         sudoku.showSudokuTable();
+        sudoku.isColumnAndRowAvailable(0, 3, 10);
     }
 }
