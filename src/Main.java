@@ -52,7 +52,14 @@ public class Main {
             var position = keyboard.nextLine();
 
             var rowColumnNumber = Arrays.stream(position.split(";")).toList();
-            sudoku.insertNumberInPosition(rowColumnNumber.get(0), rowColumnNumber.get(1), rowColumnNumber.get(2));
+            int selectedNumber = Integer.parseInt(rowColumnNumber.get(2));
+
+            if(selectedNumber >= 1 && selectedNumber <= 9) {
+                sudoku.insertNumberInPosition(rowColumnNumber.get(0), rowColumnNumber.get(1), rowColumnNumber.get(2));
+            } else {
+                System.out.println(">> Selecione um número entre 1 e 9 <<");
+            }
+
         } else {
             System.out.println("Inicie o jogo primeiro.");
         }
